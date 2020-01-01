@@ -27,3 +27,7 @@ To set flair css edit the stylesheet on Reddit and add something like this for t
     }
 
 If you're not using Unix you won't see the colours in the terminal (command prompt). Here's how to get them working: https://recycledrobot.co.uk/words/?print-python-colours
+
+---
+
+BTC - 1AYSiE7mhR9XshtS4mU2rRoAGxN8wSo4tK
