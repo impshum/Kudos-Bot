@@ -77,9 +77,10 @@ Keyword: {target_keyword}
                 parent_id = comment.parent()
                 submission = reddit.submission(id=parent_id)
                 to_user = submission.author.name
+                current_flair = submission.author_flair_text
+
                 if to_user and from_user != to_user:
-                    day_of_now = datetime.fromtimestamp(
-                        created).strftime("%-j")
+                    day_of_now = datetime.fromtimestamp(created).strftime("%-j")
                     if day_of_now != day_of_year:
                         print(f'{C.Y}Daily reset{C.W}')
                         day_of_year = day_of_now
@@ -88,7 +89,17 @@ Keyword: {target_keyword}
                     if do_daily(daily_db, from_user, parent_id):
                         kudos = do_kudos(kudos_db, to_user)
                         if not test_mode:
-                            reddit.subreddit(target_subreddit).flair.set(to_user, f'{kudos} {flair_text}', css_class=flair_css)
+                            if current_flair:
+                                if ' - ' in current_flair:
+                                    current_flair = current_flair.split(' - ')[0]
+                                    new_flair = f'{current_flair} - {kudos} {flair_text}'
+                                elif flair_text in current_flair:
+                                    new_flair = f'{kudos} {flair_text}'
+                            else:
+                                new_flair = f'{kudos} {flair_text}'
+
+                            reddit.subreddit(target_subreddit).flair.set(to_user, new_flair, css_class=flair_css)
+
                         print(f'{C.G}+1{C.W} to {C.Y}{to_user}{C.W} from {C.P}{from_user}{C.W}')
 
 
